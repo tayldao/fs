@@ -1,0 +1,41 @@
+# .env files
+env/
+.env
+.env.*
+app.py
+*.mp4
+*.jpeg
+produce.py
+dummy.py
+# Virtual environment
+.venv/
+venv/
+
+# Dependency files
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+*.tar.gz
+
+# SQLite database file
+*.sqlite3
+
+# Log files
+*.log
+erl_crash.dump
+# PyCache
+__pycache__/
+*.pyc
+*.pyo
+
+# HTML build files
+*.html
+
+# Jupyter notebooks
+*.ipynb
+
+# .DS_Store
+.DS_Store
+
