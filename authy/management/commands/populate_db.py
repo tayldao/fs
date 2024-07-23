@@ -34,12 +34,4 @@ class Command(BaseCommand):
                     self.style.SUCCESS(f'  State "{state.name}" processed.')
                 )
 
-                for city_data in state_data["cities"]:
-                    city, created = City.objects.get_or_create(
-                        name=city_data["name"], state=state, country=country
-                    )
-                    self.stdout.write(
-                        self.style.SUCCESS(f'    City "{city.name}" processed.')
-                    )
-
         self.stdout.write(self.style.SUCCESS("Database populated successfully."))
