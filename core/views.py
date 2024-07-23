@@ -12,7 +12,8 @@ from rest_framework.serializers import ValidationError
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 from core.serializers import *
-from core.models import PaymentDetails, Country, State, Bank, Kyc, NOK
+from core.models import PaymentDetails, Bank, Kyc, NOK
+from authy.models import Country, State
 
 
 class PaymentDetailsViewset(ModelViewSet):

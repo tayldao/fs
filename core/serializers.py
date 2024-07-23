@@ -3,7 +3,8 @@ from __future__ import annotations
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from core.models import PaymentDetails, Country, State, Bank, Kyc, NOK
+from core.models import PaymentDetails, Bank, Kyc, NOK
+from authy.models import Country, State, City
 
 
 class StateSerializer(ModelSerializer):

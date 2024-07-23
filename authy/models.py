@@ -56,7 +56,10 @@ class User(AbstractUser, BaseModel, BaseSoftDeletableModel):
     otp = models.IntegerField(blank=True, null=True, unique=True)
     is_verified = models.BooleanField(default=False, verbose_name="Is Verified")
     objects = UserManager()
-    REQUIRED_FIELDS = ["first_name", "last_name", ]
+    REQUIRED_FIELDS = [
+        "first_name",
+        "last_name",
+    ]
     USERNAME_FIELD: str = "email"
 
     class Meta:
@@ -112,7 +115,9 @@ class Customer(BaseModel):
     website = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(max_length=100, blank=True)
     mobile_number = models.CharField(max_length=20, null=True, blank=True)
-    work_number = models.CharField(max_length=20,)
+    work_number = models.CharField(
+        max_length=20,
+    )
     customer_type = models.CharField(
         max_length=20,
         blank=True,
@@ -134,10 +139,30 @@ class Customer(BaseModel):
         return open_balance
 
 
-class State(BaseModel):
+# models.py
+
+from django.db import models
+
+
+class Country(models.Model):
     name = models.CharField(max_length=100)
+    code = models.CharField(max_length=3, unique=True)
+    phone_code = models.CharField(max_length=10)
+
     def __str__(self) -> str:
-        return f"{self.name}"
+        return f"{self.name} => {self.code}"
+
+
+class State(models.Model):
+    name = models.CharField(max_length=100)
+    state_code = models.CharField(max_length=10, null=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)
+
+
+class City(models.Model):
+    name = models.CharField(max_length=100)
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
 
 class Address(BaseModel):
@@ -149,4 +174,6 @@ class Address(BaseModel):
     type = models.CharField(max_length=15, default=BILLING, choices=ADDRESS_CHOICES)
     address_1 = models.TextField()
     address_2 = models.TextField(blank=True)
-    customer = models.ForeignKey("Customer", on_delete=models.CASCADE, related_name="addresses")
+    customer = models.ForeignKey(
+        "Customer", on_delete=models.CASCADE, related_name="addresses"
+    )
