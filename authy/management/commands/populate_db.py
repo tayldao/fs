@@ -15,7 +15,7 @@ class Command(BaseCommand):
         data = response.json()
 
         for country_data in data:
-            country, created = Country.objects.get_or_create(
+            country, _ = Country.objects.get_or_create(
                 name=country_data["name"],
                 code=country_data["iso3"],
                 phone_code=country_data["phone_code"],
@@ -25,7 +25,7 @@ class Command(BaseCommand):
             )
 
             for state_data in country_data["states"]:
-                state, created = State.objects.get_or_create(
+                state, _ = State.objects.get_or_create(
                     name=state_data["name"],
                     state_code=state_data["state_code"],
                     country=country,

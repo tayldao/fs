@@ -20,6 +20,9 @@ class PaymentDetailsViewset(ModelViewSet):
     serializer_class = PaymentDetailsSerializer
     queryset = PaymentDetails.objects.all()
 
+    def perform_create(self, serializer):
+        serializer.save(client=self.request.user)
+
 
 class CountryView(ModelViewSet):
     serializer_class = CountrySerializer

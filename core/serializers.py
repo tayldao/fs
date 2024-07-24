@@ -29,15 +29,18 @@ class NOKSerializer(ModelSerializer):
     class Meta:
         fields = "__all__"
         model = NOK
+        extra_kwargs = {"client": {"read_only": True}}
 
 
 class KycSerializer(ModelSerializer):
     class Meta:
         fields = "__all__"
         model = Kyc
+        extra_kwargs = {"client": {"read_only": True}}
 
 
 class PaymentDetailsSerializer(ModelSerializer):
     class Meta:
         fields = "__all__"
         model = PaymentDetails
+        extra_kwargs = {"client": {"read_only": True}}
