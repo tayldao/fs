@@ -1,22 +1,7 @@
 from django.db import models
 
 from mixins.base_model import BaseModel
-from authy.models import User
-
-
-class Country(BaseModel):
-    name = models.CharField(max_length=60)
-    code = models.CharField(max_length=4, blank=True, null=True)
-
-    def __str__(self) -> str:
-        return f"{self.name}"
-
-
-class State(BaseModel):
-    name = models.CharField(max_length=60)
-
-    def __str__(self) -> str:
-        return f"{self.name}"
+from authy.models import User, Country, State
 
 
 class Kyc(BaseModel):

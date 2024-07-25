@@ -10,6 +10,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.serializers import ValidationError
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework.filters import SearchFilter
 
 from core.serializers import *
 from core.models import PaymentDetails, Bank, Kyc, NOK
@@ -29,6 +30,9 @@ class CountryView(ModelViewSet):
     permission_classes = (AllowAny,)
     queryset = Country.objects.all()
     http_method_names = ["get"]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ["state"]
+    filterset_fields = {"state": ["exact"]}
 
 
 class StateViewset(ModelViewSet):
@@ -36,6 +40,9 @@ class StateViewset(ModelViewSet):
     permission_classes = (AllowAny,)
     queryset = State.objects.all()
     http_method_names = ["get"]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ["country"]
+    filterset_fields = {"country": ["exact"]}
 
 
 class BankViewset(ModelViewSet):
@@ -48,6 +55,7 @@ class BankViewset(ModelViewSet):
 class NOKViewset(ModelViewSet):
     serializer_class = NOKSerializer
     queryset = NOK.objects.all()
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         serializer.save(client=self.request.user)
@@ -56,6 +64,7 @@ class NOKViewset(ModelViewSet):
 class KycViewset(ModelViewSet):
     serializer_class = KycSerializer
     queryset = Kyc.objects.all()
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         serializer.save(client=self.request.user)
