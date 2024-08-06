@@ -11,6 +11,7 @@ base_url = os.getenv("MAILGUN_BASE_URL")
 api_key = ("api", os.getenv("MAILGUN_API_KEY"))
 sender = os.getenv("MAILGUN_SENDER")
 
+print(f"\n\n Sending daxta is {api_key}  {sender} {base_url}\n\n\n")
 email_style = """
     <style>
         body {
