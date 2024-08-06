@@ -1,13 +1,15 @@
 import requests
+import os
 from django.conf import settings
 
 from celery import shared_task
+from dotenv import load_dotenv
 
+load_dotenv()
 
-base_url = settings.MAILGUN_BASE_URL
-api_key = ("api", settings.MAILGUN_API_KEY)
-sender = settings.MAILGUN_SENDER
-
+base_url = os.getenv("MAILGUN_BASE_URL")
+api_key = ("api", os.getenv("MAILGUN_API_KEY"))
+sender = os.getenv("MAILGUN_SENDER")
 
 email_style = """
     <style>
@@ -47,7 +49,7 @@ def send_account_activation_email(receiver, otp):
     body = f"""
         <div class="container">
             <div class="header" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 20px 0;">
-                <h2>pennypal: Account Verification Email</h2>
+                <h2>Fortescrow: Account Verification Email</h2>
             </div>
             <div class="content" style="padding: 20px;">
                 <p>Hi {receiver},</p>
@@ -55,12 +57,12 @@ def send_account_activation_email(receiver, otp):
                 <p><strong>{otp}</strong></p>
             </div>
             <div class="footer" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 10px 0;">
-                <p>Thank you for choosing pennypal.</p>
+                <p>Thank you for choosing Fortescrow.</p>
             </div>
         </div>
     """
 
-    email_subject = "Pennypal: Account verification email"
+    email_subject = "Fortescrow: Account verification email"
 
     mailing_data = {
         "from": sender,
@@ -77,7 +79,7 @@ def send_authorization_otp_mail(receiver, otp):
     body = f"""
         <div class="container">
             <div class="header" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 20px 0;">
-                <h2>pennypal: Authorization OTP</h2>
+                <h2>Fortescrow: Authorization OTP</h2>
             </div>
             <div class="content" style="padding: 20px;">
                 <p>Hi {receiver},</p>
@@ -85,12 +87,12 @@ def send_authorization_otp_mail(receiver, otp):
                 <p><strong>{otp}</strong></p>
             </div>
             <div class="footer" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 10px 0;">
-                <p>Thank you for using pennypal.</p>
+                <p>Thank you for using Fortescrow.</p>
             </div>
         </div>
     """
 
-    email_subject = "Pennypal: Authorization OTP"
+    email_subject = "Fortescrow: Authorization OTP"
 
     mailing_data = {
         "from": sender,
@@ -104,12 +106,12 @@ def send_authorization_otp_mail(receiver, otp):
 
 @shared_task
 def send_forgot_password_email(receiver, otp):
-    forgot_pass_url = f"https://www.pennypal.com.ng/forgot-password?email={receiver}"
+    forgot_pass_url = f"https://www.Fortescrow.com.ng/forgot-password?email={receiver}"
 
     body = f"""
         <div class="container">
             <div class="header" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 20px 0;">
-                <h2>pennypal: Forgot Password Email</h2>
+                <h2>Fortescrow: Forgot Password Email</h2>
             </div>
             <div class="content" style="padding: 20px;">
                 <p>Hi {receiver},</p>
@@ -118,12 +120,12 @@ def send_forgot_password_email(receiver, otp):
                 <p>Your code is: <strong>{otp}</strong></p>
             </div>
             <div class="footer" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 10px 0;">
-                <p>Thank you for using pennypal.</p>
+                <p>Thank you for using Fortescrow.</p>
             </div>
         </div>
     """
 
-    email_subject = "Pennypal: Forgot Password Email"
+    email_subject = "Fortescrow: Forgot Password Email"
 
     mailing_data = {
         "from": sender,
@@ -137,12 +139,12 @@ def send_forgot_password_email(receiver, otp):
 
 @shared_task
 def send_account_verified_email(receiver):
-    login_url = "https://www.pennypal.com.ng/login"
+    login_url = "https://www.Fortescrow.com.ng/login"
 
     body = f"""
         <div class="container">
             <div class="header" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 20px 0;">
-                <h2>pennypal: Email Verification Successful</h2>
+                <h2>Fortescrow: Email Verification Successful</h2>
             </div>
             <div class="content" style="padding: 20px;">
                 <p>Hi {receiver},</p>
@@ -151,12 +153,12 @@ def send_account_verified_email(receiver):
                 <p><a href="{login_url}" style="color: #26ADA4;">{login_url}</a></p>
             </div>
             <div class="footer" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 10px 0;">
-                <p>Thank you for choosing pennypal.</p>
+                <p>Thank you for choosing Fortescrow.</p>
             </div>
         </div>
     """
 
-    email_subject = "Pennypal: Email Verification Successful"
+    email_subject = "Fortescrow: Email Verification Successful"
 
     mailing_data = {
         "from": sender,
@@ -172,7 +174,7 @@ def send_account_verified_email(receiver):
 def send_update_password_succcess_email(receiver):
     body = f"""
         <div style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 20px;">
-            <h2>pennypal: Password Change Successful</h2>
+            <h2>Fortescrow: Password Change Successful</h2>
         </div>
         <div style="padding: 20px;">
             <p>Hi {receiver},</p>
@@ -180,7 +182,7 @@ def send_update_password_succcess_email(receiver):
         </div>
     """
 
-    email_subject = "pennypal: Password Change Successful"
+    email_subject = "Fortescrow: Password Change Successful"
 
     mailing_data = {
         "from": sender,
@@ -199,8 +201,8 @@ def send_withdrawal_mail(to, full_name, amount):
         </div>
         <div style="padding: 20px;">
             <p>Hi {full_name},</p>
-            <p>An amount of {amount} has been successfully withdrawn from your wallet account on pennypal to your bank account.</p>
-            <p>Thank you for choosing Sakaslist. You can log in to your account <a href="https://www.pennypal.com.ng/login">here</a>.</p>
+            <p>An amount of {amount} has been successfully withdrawn from your wallet account on Fortescrow to your bank account.</p>
+            <p>Thank you for choosing Sakaslist. You can log in to your account <a href="https://www.Fortescrow.com.ng/login">here</a>.</p>
         </div>
     """
 

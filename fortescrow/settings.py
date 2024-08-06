@@ -12,13 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-import environ
-
-env = environ.Env()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -29,7 +27,6 @@ SECRET_KEY = "django-insecure-7sq8xj8ojpfl7u2y&0t1sae+@sm8!v(7vouvmnd0hx8w##e*_1
 DEBUG = True
 
 ALLOWED_HOSTS = ["*", "70a5-105-112-125-205.ngrok-free.app"]
-
 
 # Application definition
 
@@ -45,12 +42,14 @@ INSTALLED_APPS = [
     "authy",
     "core",
     "rest_framework",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -58,6 +57,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True
 
 # REST_FRAMEWORK = {
 #     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -88,7 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "fortescrow.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -98,7 +98,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -118,7 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -129,7 +127,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -147,6 +144,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-MAILGUN_BASE_URL = env.str("MAILGUN_BASE_URL", default="notsafeforproduction")
-MAILGUN_API_KEY = env.str("MAILGUN_API_KEY", default="notsafeforproduction")
-MAILGUN_SENDER = env.str("MAILGUN_SENDER", default="notsafeforproduction")
+MAILGUN_BASE_URL = os.getenv("MAILGUN_BASE_URL", default="un")
+MAILGUN_API_KEY = os.getenv("MAILGUN_API_KEY", default="safe")
+MAILGUN_SENDER = os.getenv("MAILGUN_SENDER", default="notsafeforproducti")
