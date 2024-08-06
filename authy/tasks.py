@@ -47,6 +47,7 @@ email_style = """
 
 @shared_task
 def send_account_activation_email(receiver, otp):
+    print(f"\n\nThe reciever is {receiver}\n\n")
     body = f"""
         <div class="container">
             <div class="header" style="background-color: #26ADA4; color: #ffffff; text-align: center; padding: 20px 0;">
@@ -71,8 +72,9 @@ def send_account_activation_email(receiver, otp):
         "subject": email_subject,
         "html": email_style + body,
     }
-
-    return requests.post(base_url, auth=api_key, data=mailing_data)
+    resp = requests.post(base_url, auth=api_key, data=mailing_data)
+    print(f"\n\nThe response is {resp.status_code} and {resp.text}\n\n")
+    return resp
 
 
 @shared_task
